@@ -13,9 +13,11 @@ click==7.1.2
 decorator==5.0.7
 defusedxml==0.7.1
 entrypoints==0.3
+Flask==1.1.2
 gunicorn==20.1.0
 html5lib==1.1
 idna==2.10
+itsdangerous==1.1.0
 jedi==0.18.0
 Jinja2==2.11.3
 jsonschema==3.2.0
@@ -50,3 +52,4 @@ testpath==0.4.4
 urllib3==1.26.4
 wcwidth==0.2.5
 webencodings==0.5.1
+Werkzeug==1.0.1
