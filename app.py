@@ -50,7 +50,7 @@ def load_profile():
     # have to use full URL here because base_url is not being used
     #clickup_blueprint()
     clickup_blueprint.session.headers.update({
-            'Authorization': f"{clickup_blueprint.session.access_token}",
+            'Authorization': f"\"{clickup_blueprint.session.access_token}\"",
             'Content-Type': 'application/json'
     })
     headers_auth_only = {'Authorization': f"{clickup_blueprint.session.access_token}"}
