@@ -49,6 +49,10 @@ app.register_blueprint(clickup_blueprint, url_prefix="/login")
 def load_profile():
     # have to use full URL here because base_url is not being used
     #clickup_blueprint()
+    clickup_blueprint.session.headers.update({
+            'Authorization': f"{clickup_blueprint.session.access_token}",
+            'Content-type': 'application/json'
+    })
     r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team")
     r.raise_for_status()
     data = r.json()
@@ -72,6 +76,7 @@ def index():
         })
         print("access token", clickup_blueprint.session.access_token)
         print("token", clickup_blueprint.session.token)
+        print("headers", clickup_blueprint.session.headers)
 
         #clickup_blueprint.session.post("https://api.clickup.com/api/v2/oauth/token?client_id=&client_secret=&code=
         return render_template_string("""Logged in as {{ session["data"] }}<br><a href="{{ url_for("logout") }}">Log Out</a>""")
