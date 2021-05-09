@@ -30,7 +30,7 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     "clickup", __name__,
     client_id=clickup_client_id,
     client_secret=clickup_client_secret,
-    base_url="https://app.clickup.com",
+    #base_url="https://app.clickup.com",
     authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
 )
 
@@ -52,8 +52,13 @@ def redirect():
 
     session['code'] = request.args.get('code')
     print("code: ", session['code'])
-    token_url=f"https://app.clickup.com/api/v2/oauth/token?client_id={clickup_client_id}&client_secret={clickup_client_secret}&code={session['code']}",
-    resp = requests.post(token_url)
+    token_url=f"https://app.clickup.com/api/v2/oauth/token",
+    params = {
+        'client_id': clickup_client_id,
+        'client_secret': clickup_client_secret,
+        'code': session['code']
+    }
+    resp = requests.post(token_url, params=params)
     print(resp.content)
     session['user_access_token'] = resp.content
 
