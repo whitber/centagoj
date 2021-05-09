@@ -30,14 +30,13 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     "clickup", __name__,
     client_id=clickup_client_id,
     client_secret=clickup_client_secret,
-    #base_url="https://app.clickup.com",
+    base_url="https://app.clickup.com",
     #authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
     authorization_url="https://app.clickup.com/api",
     token_url="https://app.clickup.com/api/v2/oauth/token"
 )
 
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
-print(clickup_blueprint.authorization_url)
 
 @app.route('/')
 def index():
@@ -50,9 +49,16 @@ def hillary():
     return render_template('hillary.html')
 
 @app.route('/login/clickup')
-def redirect():
+def login():
+    if not clickup_blueprint.session.authorized:
+        return render_template(url_for('clickup.login'))
+    
+    resp = clickup_blueprint.session.get('/api/v2/team')
+    assert resp.ok, resp.text
+    print(resp.json())
 
-    return render_template(url_for('clickup.login'))
+    
+    return render_template('hillary.html')
 
     #session['code'] = request.args.get('code')
     #print("code: ", session['code'])
