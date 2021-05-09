@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import render_template
+from flask import request
+from flask import session
 from flask_dance.consumer import OAuth2ConsumerBlueprint
 
 import os
@@ -29,7 +31,6 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     client_id=clickup_client_id,
     client_secret=clickup_client_secret,
     base_url="https://app.clickup.com",
-    #token_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
     authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
 )
 
@@ -48,9 +49,17 @@ def hillary():
 
 @app.route('/redirect')
 def redirect():
-    resp = clickup_blueprint.session.get("/user")
-    assert resp.ok
-    print("Here's the content of my response: " + resp.content)
+
+    session['code'] = request.args.get('code')
+    print("code: ", request.args.code)
+    token_url=f"https://app.clickup.com/api/v2/oauth/token?client_id={clickup_client_id}&client_secret={clickup_client_secret}&code={session['code']}",
+    resp = requests.post(token_url)
+    print(resp.content)
+    session['user_access_token'] = resp.content
+
+    #resp = clickup_blueprint.session.get("/user")
+    #assert resp.ok
+    #print("Here's the content of my response: " + resp.content)
 
     return render_template('hillary.html')
 
