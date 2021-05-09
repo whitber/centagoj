@@ -51,5 +51,5 @@ def hillary():
 
 
 if __name__ == '__main__':
-    #app.run()
-    app.run(port=5005, debug=True)
+    app.run()
+    #app.run(port=5005, debug=True)
