@@ -51,9 +51,10 @@ def load_profile():
     #clickup_blueprint()
     clickup_blueprint.session.headers.update({
             'Authorization': f"{clickup_blueprint.session.access_token}",
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json'
     })
-    r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team")
+    headers_auth_only = {'Authorization': f"{clickup_blueprint.session.access_token}"}
+    r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team", headers=headers_auth_only)
     r.raise_for_status()
     data = r.json()
     print(data)
@@ -72,7 +73,7 @@ def index():
     if clickup_blueprint.session.authorized:
         clickup_blueprint.session.headers.update({
             'Authorization': f"{clickup_blueprint.session.access_token}",
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json'
         })
         print("access token", clickup_blueprint.session.access_token)
         print("token", clickup_blueprint.session.token)
