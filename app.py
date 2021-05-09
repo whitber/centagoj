@@ -51,12 +51,16 @@ def load_profile():
     return redirect(url_for("index"))
 
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
 
 
 @app.route("/")
 def index():
     if clickup_blueprint.session.authorized:
-        return render_template_string("""Logged in as {{ session["data"] }}<br>""")
+        return render_template_string("""Logged in as {{ session["data"] }}<br><a href="{{ url_for("logout") }}">Log Out</a>""")
 
     return render_template_string("""Not logged in<br><a href="{{ url_for("clickup.login") }}">Log In</a>""")
 
