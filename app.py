@@ -22,5 +22,10 @@ def index():
     word_def = random.choice(all_words)
     return render_template('welcome.html', word_def=word_def)
 
+@app.route('/hillary')
+def hillary():
+    return render_template('hillary.html')
+
+
 if __name__ == '__main__':
     app.run()
