@@ -43,10 +43,7 @@ headers = {
 } 
 
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
-clickup_blueprint.session.headers.update({
-    'Client-ID': clickup_blueprint.client_id, 
-    'Content-type': 'application/json'
-})
+
 
 @app.route("/load-profile")
 def load_profile():
@@ -69,8 +66,13 @@ def logout():
 @app.route("/")
 def index():
     if clickup_blueprint.session.authorized:
+        clickup_blueprint.session.headers.update({
+            'Authorization': f"{clickup_blueprint.session.access_token}",
+            'Content-type': 'application/json'
+        })
         print("access token", clickup_blueprint.session.access_token)
         print("token", clickup_blueprint.session.token)
+
         #clickup_blueprint.session.post("https://api.clickup.com/api/v2/oauth/token?client_id=&client_secret=&code=
         return render_template_string("""Logged in as {{ session["data"] }}<br><a href="{{ url_for("logout") }}">Log Out</a>""")
 
