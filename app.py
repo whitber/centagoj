@@ -54,6 +54,8 @@ def load_profile():
             'Content-Type': 'application/json'
     })
     headers_auth_only = {'Authorization': f"{clickup_blueprint.session.access_token}"}
+    print("access token", clickup_blueprint.session.access_token)
+    print("headers:", clickup_blueprint.session.headers)
     r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team", headers=headers_auth_only)
     r.raise_for_status()
     data = r.json()
