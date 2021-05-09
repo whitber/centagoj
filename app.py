@@ -47,10 +47,13 @@ def index():
 
 @app.route('/hillary')
 def hillary():
+    resp = clickup_blueprint.session.get('/api/v2/team')
+    print(resp.content)
     return render_template('hillary.html')
 
 @app.route('/login/clickup')
 def login():
+    print("is authorized: ", clickup_blueprint.session.authorized)
     if not clickup_blueprint.session.authorized:
         return render_template(url_for('clickup.login'))
     
