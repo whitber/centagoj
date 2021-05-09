@@ -1,6 +1,6 @@
 from flask import Flask
-from flask import render_template, url_for
-from flask import request
+from flask import render_template, url_for, render_template_string
+from flask import request, redirect
 from flask import session
 from flask_dance.consumer import OAuth2ConsumerBlueprint
 
@@ -39,17 +39,39 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
 
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
 
-@app.route('/')
+
+@app.route("/load-profile")
+def load_profile():
+    # have to use full URL here because base_url is not being used
+    r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team")
+    r.raise_for_status()
+    data = r.json()
+    print(data)
+    session["data"] = data
+    return redirect(url_for("index"))
+
+
+
+
+@app.route("/")
 def index():
+    if clickup_blueprint.session.authorized:
+        return render_template_string("""Logged in as {{ session["data"] }}<br>""")
 
-    word_def = random.choice(all_words)
-    return render_template('welcome.html', word_def=word_def)
+    return render_template_string("""Not logged in<br><a href="{{ url_for("clickup.login") }}">Log In</a>""")
 
-@app.route('/hillary')
-def hillary():
-    resp = clickup_blueprint.session.get('/api/v2/team')
-    print(resp.content)
-    return render_template('hillary.html')
+
+#@app.route('/')
+#def index():
+
+##    word_def = random.choice(all_words)
+#    return render_template('welcome.html', word_def=word_def)
+
+#@app.route('/hillary')
+#def hillary():
+#    resp = clickup_blueprint.session.get('/api/v2/team')
+#    print(resp.content)
+#    return render_template('hillary.html')
 
 @app.route('/trythis')
 def login(token):
