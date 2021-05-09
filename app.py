@@ -37,11 +37,16 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     token_url_params={'include_client_id': True, 'include_client_secret': True}
 )
 
+headers = {
+    'Client-ID': clickup_blueprint.client_id, 
+    'Content-type': 'application/json'
+} 
+
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
-#clickup_blueprint.session.headers.update({
-#    'Client-ID': clickup_blueprint.client_id, 
-#    'Content-type': 'application/json'
-#})
+clickup_blueprint.session.headers.update({
+    'Client-ID': clickup_blueprint.client_id, 
+    'Content-type': 'application/json'
+})
 
 @app.route("/load-profile")
 def load_profile():
