@@ -21,7 +21,8 @@ all_words = [re.split(r'\s{2,}', row)  for pre in pre_texts for row in pre.split
 
 clickup_client_id = os.environ.get('CLICKUP_CLIENT_ID')
 clickup_client_secret = os.environ.get('CLICKUP_CLIENT_SECRET')
-redirect_url = "http://127.0.0.1:5005/hillary.html"
+#redirect_url = "http://127.0.0.1:5005/hillary.html"
+redirect_url = "https://centagoj.herokuapp.com/redirect"
 
 clickup_blueprint = OAuth2ConsumerBlueprint(
     "clickup", __name__,
@@ -42,10 +43,13 @@ def index():
 
 @app.route('/hillary')
 def hillary():
+    return render_template('hillary.html')
 
-    #resp = clickup_blueprint.session.get("/user")
-    #assert resp.ok
-    #print("Here's the content of my response: " + resp.content)
+@app.route('/redirect')
+def redirect():
+    resp = clickup_blueprint.session.get("/user")
+    assert resp.ok
+    print("Here's the content of my response: " + resp.content)
 
     return render_template('hillary.html')
 
