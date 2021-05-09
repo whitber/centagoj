@@ -34,15 +34,19 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     #authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
     authorization_url="https://app.clickup.com/api",
     token_url="https://app.clickup.com/api/v2/oauth/token/",
-    token_url_params={'include_client_id': True, 'Content-Type': 'application/json'}
+    token_url_params={'include_client_id': True, 'include_client_secret': True}
 )
 
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
-
+#clickup_blueprint.session.headers.update({
+#    'Client-ID': clickup_blueprint.client_id, 
+#    'Content-type': 'application/json'
+#})
 
 @app.route("/load-profile")
 def load_profile():
     # have to use full URL here because base_url is not being used
+    clickup_blueprint()
     r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team")
     r.raise_for_status()
     data = r.json()
@@ -60,6 +64,7 @@ def logout():
 @app.route("/")
 def index():
     if clickup_blueprint.session.authorized:
+        #clickup_blueprint.session.post("https://api.clickup.com/api/v2/oauth/token?client_id=&client_secret=&code=
         return render_template_string("""Logged in as {{ session["data"] }}<br><a href="{{ url_for("logout") }}">Log Out</a>""")
 
     return render_template_string("""Not logged in<br><a href="{{ url_for("clickup.login") }}">Log In</a>""")
