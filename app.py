@@ -48,7 +48,7 @@ def index():
 def hillary():
     return render_template('hillary.html')
 
-@app.route('/redirect')
+@app.route('/login/clickup/authorized')
 def redirect():
 
     session['code'] = request.args.get('code')
