@@ -69,6 +69,8 @@ def logout():
 @app.route("/")
 def index():
     if clickup_blueprint.session.authorized:
+        print("access token", clickup_blueprint.session.access_token)
+        print("token", clickup_blueprint.session.token)
         #clickup_blueprint.session.post("https://api.clickup.com/api/v2/oauth/token?client_id=&client_secret=&code=
         return render_template_string("""Logged in as {{ session["data"] }}<br><a href="{{ url_for("logout") }}">Log Out</a>""")
 
