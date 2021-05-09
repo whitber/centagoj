@@ -52,8 +52,9 @@ def hillary():
     return render_template('hillary.html')
 
 @app.route('/trythis')
-def login():
+def login(token):
     print("is authorized: ", clickup_blueprint.session.authorized)
+    print("token", token)
     if not clickup_blueprint.session.authorized:
         return render_template(url_for('clickup.login'))
     
