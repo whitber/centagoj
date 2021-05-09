@@ -9,7 +9,7 @@ import random
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 # create the list of EO word/definitions
 page = requests.get("https://www.esperanto-panorama.net/vortaro/eo-en-u.htm")
@@ -19,10 +19,10 @@ pre_texts = [pre.text for pre in pre_sections]
 all_words = [re.split(r'\s{2,}', row)  for pre in pre_texts for row in pre.split('\n')]
 
 
-clickup_client_id = os.environ.get('CLICKUP_CLIENT_ID')
-clickup_client_secret = os.environ.get('CLICKUP_CLIENT_SECRET')
+clickup_client_id = os.environ['CLICKUP_CLIENT_ID']
+clickup_client_secret = os.environ['CLICKUP_CLIENT_SECRET']
 #redirect_url = "http://127.0.0.1:5005/hillary.html"
-redirect_url = "centagoj.herokuapp.com"
+redirect_url = "centagoj.herokuapp.com/login"
 
 clickup_blueprint = OAuth2ConsumerBlueprint(
     "clickup", __name__,
