@@ -22,14 +22,14 @@ all_words = [re.split(r'\s{2,}', row)  for pre in pre_texts for row in pre.split
 clickup_client_id = os.environ.get('CLICKUP_CLIENT_ID')
 clickup_client_secret = os.environ.get('CLICKUP_CLIENT_SECRET')
 #redirect_url = "http://127.0.0.1:5005/hillary.html"
-redirect_url = "centagoj.herokuapp.com/redirect"
+redirect_url = "centagoj.herokuapp.com"
 
 clickup_blueprint = OAuth2ConsumerBlueprint(
     "clickup", __name__,
     client_id=clickup_client_id,
     client_secret=clickup_client_secret,
     base_url="https://app.clickup.com",
-    token_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
+    #token_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
     authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
 )
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
