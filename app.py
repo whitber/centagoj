@@ -46,7 +46,7 @@ app.register_blueprint(clickup_blueprint, url_prefix="/login")
 @app.route("/load-profile")
 def load_profile():
     # have to use full URL here because base_url is not being used
-    clickup_blueprint()
+    #clickup_blueprint()
     r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team")
     r.raise_for_status()
     data = r.json()
