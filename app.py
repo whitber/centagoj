@@ -34,7 +34,8 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     #authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
     authorization_url="https://app.clickup.com/api",
     token_url="https://app.clickup.com/api/v2/oauth/token/",
-    token_url_params={'include_client_id': True}
+    token_url_params={'include_client_id': True},
+    headers={'Content-Type': 'application/json'}
 )
 
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
@@ -84,7 +85,7 @@ def login(token):
     if not clickup_blueprint.session.authorized:
         return render_template(url_for('clickup.login'))
     
-    resp = clickup_blueprint.session.get('/api/v2/team')
+    resp = clickup_blueprint.session.get('/api/v2/team', headers={'Content-Type': 'application/json'})
     assert resp.ok, resp.text
     print(resp.json())
 
