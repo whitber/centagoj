@@ -51,7 +51,7 @@ def hillary():
 def redirect():
 
     session['code'] = request.args.get('code')
-    print("code: ", request.args.code)
+    print("code: ", session['code'])
     token_url=f"https://app.clickup.com/api/v2/oauth/token?client_id={clickup_client_id}&client_secret={clickup_client_secret}&code={session['code']}",
     resp = requests.post(token_url)
     print(resp.content)
