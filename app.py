@@ -33,7 +33,8 @@ clickup_blueprint = OAuth2ConsumerBlueprint(
     base_url="https://app.clickup.com",
     #authorization_url=f"https://app.clickup.com/api?client_id={clickup_client_id}&redirect_uri={redirect_url}",
     authorization_url="https://app.clickup.com/api",
-    token_url="https://app.clickup.com/api/v2/oauth/token/"
+    token_url="https://app.clickup.com/api/v2/oauth/token/",
+    token_url_params={'include_client_id': True}
 )
 
 app.register_blueprint(clickup_blueprint, url_prefix="/login")
