@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, url_for
 from flask import request
 from flask import session
 from flask_dance.consumer import OAuth2ConsumerBlueprint
@@ -49,26 +49,28 @@ def index():
 def hillary():
     return render_template('hillary.html')
 
-@app.route('/login/clickup/authorized')
+@app.route('/login/clickup')
 def redirect():
 
-    session['code'] = request.args.get('code')
-    print("code: ", session['code'])
-    token_url=f"https://app.clickup.com/api/v2/oauth/token"
-    params = {
-        'client_id': clickup_client_id,
-        'client_secret': clickup_client_secret,
-        'code': session['code']
-    }
-    resp = requests.post(token_url, params=params)
-    print(resp.content)
-    session['user_access_token'] = resp.content
+    return render_template(url_for('clickup.login'))
+
+    #session['code'] = request.args.get('code')
+    #print("code: ", session['code'])
+    #token_url=f"https://app.clickup.com/api/v2/oauth/token"
+    #params = {
+    #    'client_id': clickup_client_id,
+    #    'client_secret': clickup_client_secret,
+    #    'code': session['code']
+    #}
+    #resp = requests.post(token_url, params=params)
+    #print(resp.content)
+    #session['user_access_token'] = resp.content
 
     #resp = clickup_blueprint.session.get("/user")
     #assert resp.ok
     #print("Here's the content of my response: " + resp.content)
 
-    return render_template('hillary.html')
+    #return render_template('hillary.html')
 
 
 if __name__ == '__main__':
