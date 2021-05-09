@@ -56,9 +56,9 @@ def load_profile():
     headers_auth_only = {'Authorization': f"{clickup_blueprint.session.access_token}"}
     print("access token", clickup_blueprint.session.access_token)
     print("headers:", clickup_blueprint.session.headers)
-    r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team", headers=headers_auth_only)
-    r.raise_for_status()
-    data = r.json()
+    r = clickup_blueprint.session.get("https://app.clickup.com/api/v2/team/")
+    #r.raise_for_status()
+    data = r.content
     print(data)
     session["data"] = data
     return redirect(url_for("index"))
