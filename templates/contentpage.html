@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+    <body class='d-flex flex-column align-items-center text-center text-white bg-dark'>
+        <div class='cover-container d-flex flex-column w-100'>
+        <header class="my-3 d-flex w-100">
+            <div class="link-primary">
+                <a href="/" class='link-primary'> home</a> | 
+                <a href="/hazarda-vorto">vorto</a> | 
+                <a href="/hillary" class='link-info'>hillary</a> | 
+                <a href="/hillary/tasks" class='link-info'>task list</a> |
+                <a href="{{ url_for('logout') }}">log out</a>
+            </div>
+            <div class="">&nbsp;</div>
+        </header>
+        <main class="d-flex mx-auto justify-content-center">
+        {% block content %}
+        {% endblock %}
+        </main>
+        </div>
+        
+    </body>
+{% endblock %}

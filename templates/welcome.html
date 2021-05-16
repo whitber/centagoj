@@ -1,7 +1,16 @@
-{% extends "base.html" %}
+{% extends "coverpage.html" %}
 {% block content %}
-        <div class='d-flex container justify-content-center flex-column'>
-        <h1>{{word_def[0]}}</h1>
-        <h4 class='text-secondary'>{{word_def[1]}}</h4>
-        </div>
+  <div class='d-flex container justify-content-center flex-column'>
+    <h3>
+        <span style='color: red' class='mx-2'>centagoj</span> / 
+        <span style='color: orange' class='mx-2'>cent agoj</span> / 
+        <span style='color: yellow' class='mx-2'>cent tagoj</span> / 
+        <span style='color: green' class='mx-2'>sen tagoj</span> / 
+        <span style='color: #1976D2' class='mx-2'>sent-agoj</span> /
+        <span style='color: #673AB7' class='mx-2'>sentagoj</span>
+    </h3>
+    <h1>&nbsp;</h1>
+    <h4 class='link-info'><a href="/hazarda-vorto">show me a random esperanto word</a></h4>
+    <h4 class='link-primary'><a href="/hillary">tell me what to do</a></h4>
+  </div>
 {% endblock %}

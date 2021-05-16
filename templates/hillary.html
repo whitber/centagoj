@@ -1,7 +1,42 @@
-{% extends "base.html" %}
+{% extends "coverpage.html" %}
 {% block content %}
-        <div class='d-flex container justify-content-center flex-column'>
-        <h1>Tell Me What To Do</h1>
-        <h3 class='text-secondary'><a href='{{url_for("clickup.login")}}'>Login to ClickUp</a></h3>
-        </div>
+  <div class='d-flex container justify-content-center flex-column'>
+    {% if not logged_in %}
+      <h1>Tell Me What To Do</h1>
+      <h3 class='text-secondary'><a href='{{url_for("clickup.login")}}'>Login to ClickUp</a></h3>
+    {% else %}
+        <h1 class='text-left text-secondary pb-3'>Do This:</h1>
+        <p class='large text-info lead'><b>{{ task["name"] }}</b></p>
+        <p class='small'>
+        {{ task["id_link"] | safe }} | {{ task["list"] }} | due: {{ task["due_date"] }}
+         | est: {{ task["time_estimate"] }} <br />
+        tags: {{ task["tags"]}} | energy: {{ task["Energy"] }} | goal: {{ task["Goal"] }}
+        </p>
+        <form method="POST" class="text-center">
+		
+          <div class="column g-2 justify-content-center">
+            <div class="row g-3 gy-5 justify-content-center">
+              <div class="col-auto small">{{ form.not_now(class='btn btn-sm') }}</div>
+              <div class="col-auto small">{{ form.log_progress(class='btn btn-sm') }}</div>
+              <div class="col-auto small">{{ form.completed(class='btn btn-sm') }}</div>
+            </div>
+            <hr class='bg-light'>
+            <div class="row my-2 g-3 gy-5 justify-content-center">
+              <div class="col-auto">{{ form.hidden_tag() }} {{ form.random(class='btn btn-sm btn-secondary fw-bold border-white bg-white') }}</div>
+              <div class="col-auto">{{ form.should(class='btn btn-sm btn-secondary fw-bold border-white bg-white') }}</div>
+              <div class="col-auto">{{ form.tiny_task(class='btn btn-sm btn-secondary fw-bold border-white bg-white') }}</div>
+              <div class="col-auto">{{ form.easy(class='btn btn-sm btn-secondary fw-bold border-white bg-white') }}</div>
+            </div>
+            <hr class="bg-light">
+            <div class="row small justify-content-center align-items-center">
+              {{form.include_tags.label}}{{ form.include_tags(class="list-group justify-content-center d-flex flex-wrap list-group-horizontal") }}
+            </div>
+            <div class="row small justify-content-center align-items-center">
+              {{form.exclude_tags.label}}{{ form.exclude_tags(class="list-group justify-content-center d-flex flex-wrap list-group-horizontal") }}
+            </div>
+          </div>
+      
+        </form>
+    {% endif %}
+  </div>
 {% endblock %}
